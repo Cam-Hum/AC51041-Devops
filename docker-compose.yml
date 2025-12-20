@@ -1,16 +1,19 @@
 services:
   weatherservice:
     build: ./WeatherService
+    image: server-weatherservice:latest
     ports:
       - "8080:8080"
 
   roomservice:
     build: ./RoomService
+    image: server-roomservice:latest
     ports:
       - "8081:8081"
 
   bookingservice:
     build: ./BookingService
+    image: server-bookingservice:latest
     ports:
       - "8082:8082"
     depends_on:
@@ -19,6 +22,7 @@ services:
 
   apigateway:
     build: ./API-Gateway
+    image: server-apigateway:latest
     ports:
       - "8000:8000"
     depends_on:
@@ -26,8 +30,22 @@ services:
 
   frontend:
     build: ./frontend
+    image: server-frontend:latest
     ports:
-      - "3000:3000"
+      - "80:80"
     depends_on:
       - apigateway
+
+  caddy:
+    image: caddy:2
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+      - ./caddy/certs:/etc/caddy/certs:ro
+    depends_on:
+      - frontend
     

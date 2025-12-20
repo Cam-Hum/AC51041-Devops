@@ -197,6 +197,17 @@ jobs:
             MONGODB_URI=${{ secrets.BOOKING_SERVICE_MONGODB_URI }}
             EOF
 
+            CERT_DIR="$DEPLOY_DIR/caddy/certs"
+            if [ ! -f "$CERT_DIR/fullchain.pem" ] || [ ! -f "$CERT_DIR/privkey.pem" ]; then
+              mkdir -p "$CERT_DIR"
+              IP_ADDR="${{ secrets.EC2_HOST }}"
+              # Generate self-signed cert with IP SAN
+              openssl req -x509 -nodes -newkey rsa:2048 -days 365 \
+                -keyout "$CERT_DIR/privkey.pem" -out "$CERT_DIR/fullchain.pem" \
+                -subj "/CN=$IP_ADDR" -addext "subjectAltName=IP:$IP_ADDR"
+              chmod 644 "$CERT_DIR/fullchain.pem" "$CERT_DIR/privkey.pem" || true
+            fi
+
             # Login to Docker Hub (so docker-compose can pull private images)
             echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
 
