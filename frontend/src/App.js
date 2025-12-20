@@ -39,8 +39,8 @@ function App() {
         if (!cancelled) {
           const raw = Array.isArray(res.data) ? res.data : [];
           const normalized = raw.map((r) => {
-            const location_id = r.location_id;
-            const room_id = r.room_id;
+            const location_id = r.location_id ?? r.locationId ?? r.location;
+            const room_id = r.room_id ?? r._id ?? r.id;
             return { ...r, location_id, room_id };
           });
           setRooms(normalized);
