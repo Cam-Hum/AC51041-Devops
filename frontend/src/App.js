@@ -165,7 +165,6 @@ function App() {
                 <tr>
                   <th className="rooms-th">Name</th>
                   <th className="rooms-th">Capacity</th>
-                  <th className="rooms-th">Base Price</th>
                 </tr>
               </thead>
               <tbody>
