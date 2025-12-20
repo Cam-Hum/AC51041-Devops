@@ -2,7 +2,10 @@
     tls /etc/caddy/certs/fullchain.pem /etc/caddy/certs/privkey.pem
 
     # Proxy API requests to the API Gateway (inside Docker network)
-    reverse_proxy /api/* apigateway:8000
+    # Use handle_path to strip the /api prefix before proxying so backend routes match
+    handle_path /api/* {
+        reverse_proxy apigateway:8000
+    }
 
     # Proxy all other requests to the frontend
     reverse_proxy /* frontend:80
