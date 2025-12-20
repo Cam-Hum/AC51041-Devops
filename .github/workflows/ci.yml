@@ -28,6 +28,15 @@ jobs:
       - name: Build Docker image
         run: docker build -t room-service:latest ./RoomService
 
+      - name: Log in to Docker Hub
+        run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
+
+      - name: Push Room Service to Docker Hub
+        run: |
+          docker tag room-service ${{ secrets.DOCKER_USERNAME }}/RoomService:latest
+          docker push ${{ secrets.DOCKER_USERNAME }}/RoomService:latest
+
+
   weatherService:
     name: Weather Service Build and push Docker image
     runs-on: ubuntu-latest
@@ -46,6 +55,14 @@ jobs:
 
       - name: Build Docker image
         run: docker build -t weather-service:latest ./WeatherService
+
+      - name: Log in to Docker Hub
+        run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
+
+      - name: Push Weather Service to Docker Hub
+        run: |
+          docker tag weather-service ${{ secrets.DOCKER_USERNAME }}/WeatherService:latest
+          docker push ${{ secrets.DOCKER_USERNAME }}/WeatherService:latest
 
   bookingService:
     name: Booking Service Build and push Docker image
@@ -66,6 +83,14 @@ jobs:
       - name: Build Docker image
         run: docker build -t booking-service:latest ./BookingService
 
+      - name: Log in to Docker Hub
+        run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
+
+      - name: Push Booking Service to Docker Hub
+        run: |
+          docker tag booking-service ${{ secrets.DOCKER_USERNAME }}/BookingService:latest
+          docker push ${{ secrets.DOCKER_USERNAME }}/BookingService:latest
+
   apiGateway:
     name: API Gateway Build and push Docker image
     runs-on: ubuntu-latest
@@ -84,6 +109,14 @@ jobs:
 
       - name: Build Docker image
         run: docker build -t api-gateway:latest ./API-Gateway
+
+      - name: Log in to Docker Hub
+        run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
+
+      - name: Push API Gateway to Docker Hub
+        run: |
+          docker tag api-gateway ${{ secrets.DOCKER_USERNAME }}/API-Gateway:latest
+          docker push ${{ secrets.DOCKER_USERNAME }}/API-Gateway:latest
   
   frontend:
     name: Frontend Build and push Docker image
@@ -103,3 +136,11 @@ jobs:
 
       - name: Build Docker image
         run: docker build -t frontend:latest ./frontend
+
+      - name: Log in to Docker Hub
+        run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
+
+      - name: Push Frontend to Docker Hub
+        run: |
+          docker tag frontend ${{ secrets.DOCKER_USERNAME }}/frontend:latest
+          docker push ${{ secrets.DOCKER_USERNAME }}/frontend:latest
