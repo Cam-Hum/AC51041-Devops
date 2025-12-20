@@ -176,10 +176,10 @@ function App() {
                       onClick={() => openModal(room)}
                       data-location-id={room.location_id}
                       data-room-id={room.room_id}
+                      data-room-basePrice={room.basePrice}
                     >
                       <td className="rooms-td">{room.name}</td>
                       <td className="rooms-td">{room.capacity}</td>
-                      <td className="rooms-td">{room.basePrice}</td>
                     </tr>
                 ))}
               </tbody>
