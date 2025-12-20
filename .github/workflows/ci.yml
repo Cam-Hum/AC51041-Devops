@@ -3,10 +3,10 @@ name: AC51041 CI/CD Pipeline
 on:
   push:
     branches:
-      - main
+      - master
   pull_request:
     branches:
-      - main
+      - master
 
 jobs:
   roomService:
@@ -23,10 +23,10 @@ jobs:
 
       - name: Install dependencies
         run: npm install
-        working-directory: ./backend/roomService
+        working-directory: ./RoomService
 
       - name: Build Docker image
-        run: docker build -t room-service:latest ./backend/roomService
+        run: docker build -t room-service:latest ./RoomService
 
   weatherService:
     name: Weather Service Build and push Docker image
@@ -42,10 +42,10 @@ jobs:
 
       - name: Install dependencies
         run: npm install
-        working-directory: ./backend/weatherService
+        working-directory: ./WeatherService
 
       - name: Build Docker image
-        run: docker build -t weather-service:latest ./backend/weatherService
+        run: docker build -t weather-service:latest ./WeatherService
 
   bookingService:
     name: Booking Service Build and push Docker image
@@ -61,10 +61,10 @@ jobs:
 
       - name: Install dependencies
         run: npm install
-        working-directory: ./backend/bookingService
+        working-directory: ./BookingService
 
       - name: Build Docker image
-        run: docker build -t booking-service:latest ./backend/bookingService
+        run: docker build -t booking-service:latest ./BookingService
 
   apiGateway:
     name: API Gateway Build and push Docker image
@@ -80,10 +80,10 @@ jobs:
 
       - name: Install dependencies
         run: npm install
-        working-directory: ./backend/apiGateway
+        working-directory: ./API-Gateway
 
       - name: Build Docker image
-        run: docker build -t api-gateway:latest ./backend/apiGateway
+        run: docker build -t api-gateway:latest ./API-Gateway
   
   frontend:
     name: Frontend Build and push Docker image
