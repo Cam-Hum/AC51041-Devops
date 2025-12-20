@@ -2,18 +2,24 @@ services:
   weatherservice:
     build: ./WeatherService
     image: server-weatherservice:latest
+    env_file:
+      - ./WeatherService/.env
     ports:
       - "8080:8080"
 
   roomservice:
     build: ./RoomService
     image: server-roomservice:latest
+    env_file:
+      - ./RoomService/.env
     ports:
       - "8081:8081"
 
   bookingservice:
     build: ./BookingService
     image: server-bookingservice:latest
+    env_file:
+      - ./BookingService/.env
     ports:
       - "8082:8082"
     depends_on:
@@ -23,6 +29,8 @@ services:
   apigateway:
     build: ./API-Gateway
     image: server-apigateway:latest
+    env_file:
+      - ./API-Gateway/.env
     ports:
       - "8000:8000"
     depends_on:
