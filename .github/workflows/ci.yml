@@ -23,18 +23,18 @@ jobs:
 
       - name: Install dependencies
         run: npm install
-        working-directory: ./roomservice
+        working-directory: ./RoomService
 
       - name: Build Docker image
-        run: docker build -t room-service:latest ./roomservice
+        run: docker build -t room-service:latest ./RoomService
 
       - name: Log in to Docker Hub
         run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
 
       - name: Push Room Service to Docker Hub
         run: |
-          docker tag room-service ${{ secrets.DOCKER_USERNAME }}/roomservice:latest
-          docker push ${{ secrets.DOCKER_USERNAME }}/roomservice:latest
+          docker tag room-service ${{ secrets.DOCKER_USERNAME }}/room-service:latest
+          docker push ${{ secrets.DOCKER_USERNAME }}/room-service:latest
 
 
   weather-service:
@@ -51,18 +51,18 @@ jobs:
 
       - name: Install dependencies
         run: npm install
-        working-directory: ./weatherservice
+        working-directory: ./WeatherService
 
       - name: Build Docker image
-        run: docker build -t weather-service:latest ./weatherservice
+        run: docker build -t weather-service:latest ./WeatherService
 
       - name: Log in to Docker Hub
         run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
 
       - name: Push Weather Service to Docker Hub
         run: |
-          docker tag weather-service ${{ secrets.DOCKER_USERNAME }}/weatherservice:latest
-          docker push ${{ secrets.DOCKER_USERNAME }}/weatherservice:latest
+          docker tag weather-service ${{ secrets.DOCKER_USERNAME }}/weather-service:latest
+          docker push ${{ secrets.DOCKER_USERNAME }}/weather-service:latest
 
   booking-service:
     name: Booking Service Build and push Docker image
@@ -78,18 +78,18 @@ jobs:
 
       - name: Install dependencies
         run: npm install
-        working-directory: ./bookingservice
+        working-directory: ./BookingService
 
       - name: Build Docker image
-        run: docker build -t booking-service:latest ./bookingservice
+        run: docker build -t booking-service:latest ./BookingService
 
       - name: Log in to Docker Hub
         run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
 
       - name: Push Booking Service to Docker Hub
         run: |
-          docker tag booking-service ${{ secrets.DOCKER_USERNAME }}/bookingservice:latest
-          docker push ${{ secrets.DOCKER_USERNAME }}/bookingservice:latest
+          docker tag booking-service ${{ secrets.DOCKER_USERNAME }}/booking-service:latest
+          docker push ${{ secrets.DOCKER_USERNAME }}/booking-service:latest
 
   api-gateway:
     name: API Gateway Build and push Docker image
@@ -105,10 +105,10 @@ jobs:
 
       - name: Install dependencies
         run: npm install
-        working-directory: ./api-gateway
+        working-directory: ./API-Gateway
 
       - name: Build Docker image
-        run: docker build -t api-gateway:latest ./api-gateway
+        run: docker build -t api-gateway:latest ./API-Gateway
 
       - name: Log in to Docker Hub
         run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
