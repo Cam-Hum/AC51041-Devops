@@ -31,8 +31,6 @@ services:
   frontend:
     build: ./frontend
     image: server-frontend:latest
-    ports:
-      - "80:80"
     depends_on:
       - apigateway
 
