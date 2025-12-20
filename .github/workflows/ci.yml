@@ -207,6 +207,13 @@ jobs:
             docker pull ${{ secrets.DOCKER_USERNAME }}/api-gateway:latest || true
             docker pull ${{ secrets.DOCKER_USERNAME }}/frontend:latest || true
 
+            # Tag pulled images to compose-local names (project dir 'server' => server-<service>)
+            docker tag ${{ secrets.DOCKER_USERNAME }}/room-service:latest server-roomservice:latest || true
+            docker tag ${{ secrets.DOCKER_USERNAME }}/weather-service:latest server-weatherservice:latest || true
+            docker tag ${{ secrets.DOCKER_USERNAME }}/booking-service:latest server-bookingservice:latest || true
+            docker tag ${{ secrets.DOCKER_USERNAME }}/api-gateway:latest server-apigateway:latest || true
+            docker tag ${{ secrets.DOCKER_USERNAME }}/frontend:latest server-frontend:latest || true
+
             # Restart services without building images
             cd "$DEPLOY_DIR"
             docker-compose up -d --no-build --remove-orphans
