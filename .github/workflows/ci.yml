@@ -13,93 +13,93 @@ jobs:
     name: Room Service Build and push Docker image
     runs-on: ubuntu-latest
     steps:
-      -name: Checkout repository
-       uses: actions/checkout@v3
+      - name: Checkout repository
+        uses: actions/checkout@v3
 
-      -name: Set up node.js
-       uses: actions/setup-node@v3
+      - name: Set up node.js
+        uses: actions/setup-node@v3
         with:
           node-version: '20.x'
 
-      -name: Install dependencies
+      - name: Install dependencies
         run: npm install
         working-directory: ./backend/roomService
 
-      name: Build Docker image
+      - name: Build Docker image
         run: docker build -t room-service:latest ./backend/roomService
 
   weatherService:
     name: Weather Service Build and push Docker image
     runs-on: ubuntu-latest
     steps:
-      -name: Checkout repository
-       uses: actions/checkout@v3
+      - name: Checkout repository
+        uses: actions/checkout@v3
 
-      -name: Set up node.js
-       uses: actions/setup-node@v3
+      - name: Set up node.js
+        uses: actions/setup-node@v3
         with:
           node-version: '20.x'
 
-      -name: Install dependencies
+      - name: Install dependencies
         run: npm install
         working-directory: ./backend/weatherService
 
-      name: Build Docker image
+      - name: Build Docker image
         run: docker build -t weather-service:latest ./backend/weatherService
 
   bookingService:
     name: Booking Service Build and push Docker image
     runs-on: ubuntu-latest
     steps:
-      -name: Checkout repository
-       uses: actions/checkout@v3
+      - name: Checkout repository
+        uses: actions/checkout@v3
 
-      -name: Set up node.js
-       uses: actions/setup-node@v3
+      - name: Set up node.js
+        uses: actions/setup-node@v3
         with:
           node-version: '20.x'
 
-      -name: Install dependencies
+      - name: Install dependencies
         run: npm install
         working-directory: ./backend/bookingService
 
-      name: Build Docker image
+      - name: Build Docker image
         run: docker build -t booking-service:latest ./backend/bookingService
 
   apiGateway:
     name: API Gateway Build and push Docker image
     runs-on: ubuntu-latest
     steps:
-      -name: Checkout repository
-       uses: actions/checkout@v3
+      - name: Checkout repository
+        uses: actions/checkout@v3
 
-      -name: Set up node.js
-       uses: actions/setup-node@v3
+      - name: Set up node.js
+        uses: actions/setup-node@v3
         with:
           node-version: '20.x'
 
-      -name: Install dependencies
+      - name: Install dependencies
         run: npm install
         working-directory: ./backend/apiGateway
 
-      name: Build Docker image
+      - name: Build Docker image
         run: docker build -t api-gateway:latest ./backend/apiGateway
   
   frontend:
     name: Frontend Build and push Docker image
     runs-on: ubuntu-latest
     steps:
-      -name: Checkout repository
-       uses: actions/checkout@v3
+      - name: Checkout repository
+        uses: actions/checkout@v3
 
-      -name: Set up node.js
-       uses: actions/setup-node@v3
+      - name: Set up node.js
+        uses: actions/setup-node@v3
         with:
           node-version: '20.x'
 
-      -name: Install dependencies
+      - name: Install dependencies
         run: npm install
         working-directory: ./frontend
 
-      name: Build Docker image
+      - name: Build Docker image
         run: docker build -t frontend:latest ./frontend
