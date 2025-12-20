@@ -35,7 +35,7 @@ function App() {
       try {
         const token = auth.user.id_token;
         const headers = { Authorization: `Bearer ${token}` };
-        const res = await Axios.get("https://apigateway:8000/booking/getrooms", { headers });
+        const res = await Axios.get("/api/booking/getrooms", { headers });
         if (!cancelled) {
           const raw = Array.isArray(res.data) ? res.data : [];
           const normalized = raw.map((r) => {
@@ -79,7 +79,7 @@ function App() {
       const headers = { ...(token ? { Authorization: `Bearer ${token}` } : {}), ...(userId ? { 'x-user-id': userId } : {}) };
 
       const qs = `?date=${encodeURIComponent(bookingDate)}&room_id=${encodeURIComponent(selectedRoom._id)}`;
-      const url = `https://apigateway:8000/booking/makebooking${qs}`;
+      const url = `/api/booking/makebooking${qs}`;
       console.log("Booking URL: " + url);
 
       const res = await Axios.post(url, null, { headers });
@@ -114,13 +114,13 @@ function App() {
       const token = auth.user?.id_token;
       const headers = { Authorization: `Bearer ${token}` };
       const qs = `?date=${encodeURIComponent(bookingDate)}&location_id=${encodeURIComponent(selectedRoom.location_id)}&room_id=${encodeURIComponent(selectedRoom._id)}`;
-      const url = `https://apigateway:8000/booking/calcprice${qs}`;
+      const url = `/api/booking/calcprice${qs}`;
       const res = await Axios.get(url, { headers });
       const price = res && res.data && (res.data.adjustedPrice ?? res.data);
       setCalculatedPrice(price);
       try {
         const checkQs = `?date=${encodeURIComponent(bookingDate)}&room_id=${encodeURIComponent(selectedRoom._id)}`;
-        const checkUrl = `https://apigateway:8000/booking/checkbooking${checkQs}`;
+        const checkUrl = `/api/booking/checkbooking${checkQs}`;
         const checkRes = await Axios.get(checkUrl, { headers });
         const avail = checkRes && checkRes.data && (typeof checkRes.data.available === 'boolean' ? checkRes.data.available : !!checkRes.data.available);
         setIsAvailable(avail);
