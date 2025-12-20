@@ -1,4 +1,4 @@
-name: AC51041 CI/CD Pipeline
+name: CI/CD Pipeline
 
 on:
   push:
