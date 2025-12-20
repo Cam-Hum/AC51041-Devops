@@ -4,7 +4,7 @@
     # Proxy API requests to the API Gateway (inside Docker network)
     # Use handle_path to strip the /api prefix before proxying so backend routes match
     handle_path /api/* {
-        reverse_proxy apigateway:8000
+        reverse_proxy /* apigateway:8000
     }
 
     # Proxy all other requests to the frontend
