@@ -1,16 +1,16 @@
 services:
   weatherservice:
-    build: ./weatherService
+    build: ./WeatherService
     ports:
       - "8080:8080"
 
   roomservice:
-    build: ./roomService
+    build: ./RoomService
     ports:
       - "8081:8081"
 
   bookingservice:
-    build: ./bookingService
+    build: ./BookingService
     ports:
       - "8082:8082"
     depends_on:
