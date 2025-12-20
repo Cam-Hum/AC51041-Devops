@@ -156,6 +156,7 @@ jobs:
           host: ${{ secrets.EC2_HOST }}
           username: ${{ secrets.EC2_USER }}
           key: ${{ secrets.EC2_PRIVATE_KEY }}
+          timeout: 1800
           port: 22
           script: |
             set -e
@@ -200,7 +201,13 @@ jobs:
             # Login to Docker Hub (so docker-compose can pull private images)
             echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
 
-            # Pull and restart services using docker-compose in repo root
+            # Pull images (ensure images are present so compose won't build)
+            docker pull ${{ secrets.DOCKER_USERNAME }}/room-service:latest || true
+            docker pull ${{ secrets.DOCKER_USERNAME }}/weather-service:latest || true
+            docker pull ${{ secrets.DOCKER_USERNAME }}/booking-service:latest || true
+            docker pull ${{ secrets.DOCKER_USERNAME }}/api-gateway:latest || true
+            docker pull ${{ secrets.DOCKER_USERNAME }}/frontend:latest || true
+
+            # Restart services without building images
             cd "$DEPLOY_DIR"
-            docker-compose pull || true
-            docker-compose up -d --build --remove-orphans
+            docker-compose up -d --no-build --remove-orphans
