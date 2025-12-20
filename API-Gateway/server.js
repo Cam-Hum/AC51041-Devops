@@ -6,8 +6,7 @@ const axios = require('axios');
 const app = express();
 app.use(express.json());
 
-// Enable CORS. Use CORS_ORIGIN env var or default to localhost:3000
-const CORS_ORIGIN = process.env.CORS_ORIGIN || 'http://localhost:3000';
+const CORS_ORIGIN = process.env.CORS_ORIGIN || 'https://3.218.235.133';
 app.use(cors({ origin: CORS_ORIGIN, credentials: true }));
 
 const REGION = process.env.AWS_REGION;
