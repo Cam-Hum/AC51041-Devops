@@ -49,3 +49,6 @@ services:
     depends_on:
       - frontend
     
+volumes:
+  caddy_data: {}
+  caddy_config: {}
