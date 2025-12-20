@@ -9,7 +9,7 @@ on:
       - master
 
 jobs:
-  roomService:
+  room-service:
     name: Room Service Build and push Docker image
     runs-on: ubuntu-latest
     steps:
@@ -23,21 +23,21 @@ jobs:
 
       - name: Install dependencies
         run: npm install
-        working-directory: ./RoomService
+        working-directory: ./roomservice
 
       - name: Build Docker image
-        run: docker build -t room-service:latest ./RoomService
+        run: docker build -t room-service:latest ./roomservice
 
       - name: Log in to Docker Hub
         run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
 
       - name: Push Room Service to Docker Hub
         run: |
-          docker tag room-service ${{ secrets.DOCKER_USERNAME }}/RoomService:latest
-          docker push ${{ secrets.DOCKER_USERNAME }}/RoomService:latest
+          docker tag room-service ${{ secrets.DOCKER_USERNAME }}/roomservice:latest
+          docker push ${{ secrets.DOCKER_USERNAME }}/roomservice:latest
 
 
-  weatherService:
+  weather-service:
     name: Weather Service Build and push Docker image
     runs-on: ubuntu-latest
     steps:
@@ -51,20 +51,20 @@ jobs:
 
       - name: Install dependencies
         run: npm install
-        working-directory: ./WeatherService
+        working-directory: ./weatherservice
 
       - name: Build Docker image
-        run: docker build -t weather-service:latest ./WeatherService
+        run: docker build -t weather-service:latest ./weatherservice
 
       - name: Log in to Docker Hub
         run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
 
       - name: Push Weather Service to Docker Hub
         run: |
-          docker tag weather-service ${{ secrets.DOCKER_USERNAME }}/WeatherService:latest
-          docker push ${{ secrets.DOCKER_USERNAME }}/WeatherService:latest
+          docker tag weather-service ${{ secrets.DOCKER_USERNAME }}/weatherservice:latest
+          docker push ${{ secrets.DOCKER_USERNAME }}/weatherservice:latest
 
-  bookingService:
+  booking-service:
     name: Booking Service Build and push Docker image
     runs-on: ubuntu-latest
     steps:
@@ -78,20 +78,20 @@ jobs:
 
       - name: Install dependencies
         run: npm install
-        working-directory: ./BookingService
+        working-directory: ./bookingservice
 
       - name: Build Docker image
-        run: docker build -t booking-service:latest ./BookingService
+        run: docker build -t booking-service:latest ./bookingservice
 
       - name: Log in to Docker Hub
         run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
 
       - name: Push Booking Service to Docker Hub
         run: |
-          docker tag booking-service ${{ secrets.DOCKER_USERNAME }}/BookingService:latest
-          docker push ${{ secrets.DOCKER_USERNAME }}/BookingService:latest
+          docker tag booking-service ${{ secrets.DOCKER_USERNAME }}/bookingservice:latest
+          docker push ${{ secrets.DOCKER_USERNAME }}/bookingservice:latest
 
-  apiGateway:
+  api-gateway:
     name: API Gateway Build and push Docker image
     runs-on: ubuntu-latest
     steps:
@@ -105,18 +105,18 @@ jobs:
 
       - name: Install dependencies
         run: npm install
-        working-directory: ./API-Gateway
+        working-directory: ./api-gateway
 
       - name: Build Docker image
-        run: docker build -t api-gateway:latest ./API-Gateway
+        run: docker build -t api-gateway:latest ./api-gateway
 
       - name: Log in to Docker Hub
         run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
 
       - name: Push API Gateway to Docker Hub
         run: |
-          docker tag api-gateway ${{ secrets.DOCKER_USERNAME }}/API-Gateway:latest
-          docker push ${{ secrets.DOCKER_USERNAME }}/API-Gateway:latest
+          docker tag api-gateway ${{ secrets.DOCKER_USERNAME }}/api-gateway:latest
+          docker push ${{ secrets.DOCKER_USERNAME }}/api-gateway:latest
   
   frontend:
     name: Frontend Build and push Docker image
