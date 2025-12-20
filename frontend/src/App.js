@@ -36,6 +36,7 @@ function App() {
         const token = auth.user.id_token;
         const headers = { Authorization: `Bearer ${token}` };
         const res = await Axios.get("/api/booking/getrooms", { headers });
+        console.log("Fetched rooms:", res.data);
         if (!cancelled) {
           const raw = Array.isArray(res.data) ? res.data : [];
           const normalized = raw.map((r) => {
