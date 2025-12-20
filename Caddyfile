@@ -1,6 +1,11 @@
 :443 {
     tls /etc/caddy/certs/fullchain.pem /etc/caddy/certs/privkey.pem
-    reverse_proxy frontend:80
+
+    # Proxy API requests to the API Gateway (inside Docker network)
+    reverse_proxy /api/* apigateway:8000
+
+    # Proxy all other requests to the frontend
+    reverse_proxy /* frontend:80
 }
 
 :80 {
