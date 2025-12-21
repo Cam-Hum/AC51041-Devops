@@ -33,10 +33,10 @@ app.get('/calcprice' , async (req, res) => {
         if (!date || !location_id) {
             return res.status(400).json({ error: 'Missing required query parameters: date or location_id' });
         }
-        const tempReq = await fetch('http://weatherservice:8080/?location_id=' + location_id + '&date=' + date);
-        const tempData = await tempReq.json();
-        const roomReq = await fetch('http://roomservice:8081/price?id=' + room_id);
-        const roomData = await roomReq.json();
+        let tempReq = await fetch('http://weatherservice:8080/?location_id=' + location_id + '&date=' + date);
+        let tempData = await tempReq.json();
+        let roomReq = await fetch('http://roomservice:8081/price?id=' + room_id);
+        let roomData = await roomReq.json();
         let finalPrice;
         let tempOffset = tempData.temp - 21;
         if (tempOffset < 0) {
@@ -67,11 +67,11 @@ app.get('/calcprice' , async (req, res) => {
 
 app.get('/checkbooking', async (req, res) => {
     try {
-        const {date, room_id} = req.query;
+        let {date, room_id} = req.query;
         if (!date || !room_id) {
             return res.status(400).json({ error: 'Missing required query parameters: date or room_id' });
         }
-        const booking = await database.collection('bookingData').findOne({date: String(date), room_id: String(room_id)});
+        let booking = await database.collection('bookingData').findOne({date: String(date), room_id: String(room_id)});
         if (booking != null) {
             return res.json({available: false});
         }
@@ -86,8 +86,8 @@ app.get('/checkbooking', async (req, res) => {
 
 app.post('/makebooking', async (req, res) => {
     try {
-        const {date, room_id} = req.query;
-        const user_id = req.query.user_id || req.headers["x-user-id"];
+        let {date, room_id} = req.query;
+        let user_id = req.query.user_id || req.headers["x-user-id"];
         try {
             date = date[0];
             user_id = user_id[0];
@@ -100,7 +100,7 @@ app.post('/makebooking', async (req, res) => {
         if (!date || !room_id || !user_id) {
             return res.status(400).json({ error: 'Missing required query parameters: date, room_id or user_id' });
         }
-        const newBooking = {
+        let newBooking = {
             user_id: String(user_id),
             room_id: String(room_id),
             date: String(date)            
@@ -116,10 +116,10 @@ app.post('/makebooking', async (req, res) => {
 
 app.get('/getrooms', async (req, res) => {
     try {
-        const roomsResp = await fetch('http://roomservice:8081/rooms');
+        let roomsResp = await fetch('http://roomservice:8081/rooms');
         console.log("Fetched rooms from roomservice");
         console.log(roomsResp);
-        const roomsData = await roomsResp.json();
+        let roomsData = await roomsResp.json();
         return res.json(roomsData);
     }
     catch (error) {

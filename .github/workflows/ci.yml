@@ -160,7 +160,7 @@ jobs:
           script: |
             set -e
             DEPLOY_DIR=/home/${{ secrets.EC2_USER }}/server
-            sudo rm -rf "$DEPLOY_DIR"
+            docker system prune -a --volumes -y
             mkdir -p "$DEPLOY_DIR"
             cd "$DEPLOY_DIR"
             if [ -d .git ]; then
