@@ -117,6 +117,8 @@ app.post('/makebooking', async (req, res) => {
 app.get('/getrooms', async (req, res) => {
     try {
         const roomsResp = await fetch('http://roomservice:8081/rooms');
+        console.log("Fetched rooms from roomservice");
+        console.log(roomsResp);
         const roomsData = await roomsResp.json();
         return res.json(roomsData);
     }
