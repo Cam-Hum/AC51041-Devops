@@ -88,15 +88,6 @@ app.post('/makebooking', async (req, res) => {
     try {
         let {date, room_id} = req.query;
         let user_id = req.query.user_id || req.headers["x-user-id"];
-        //try {
-        //    date = date[0];
-        //    user_id = user_id[0];
-        //    room_id = room_id[0];
-        //}
-        //catch (error) {
-        //    console.error('Error parsing query parameters:', error);
-        //    return res.status(400).json({ error: 'Invalid query parameters' });
-        //}
         if (!date || !room_id || !user_id) {
             return res.status(400).json({ error: 'Missing required query parameters: date, room_id or user_id' });
         }
@@ -128,7 +119,8 @@ app.get('/getrooms', async (req, res) => {
 });
 
 app.get('/ping', (req, res) => {
-    res.status(200).send('pong');
+    const dbConnected = database && database.readyState === 1;
+    res.status(200).json({ status: 'ok', db: dbConnected });
 });
 
 app.listen(process.env.PORT, (req, res) => {

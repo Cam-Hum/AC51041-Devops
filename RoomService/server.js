@@ -45,7 +45,8 @@ app.get('/rooms' , async (req, res) => {
 
 
 app.get('/ping', (req, res) => {
-    res.status(200).send('pong');
+    const dbConnected = database && database.readyState === 1;
+    res.status(200).json({ status: 'ok', db: dbConnected });
 });
 
 app.listen(process.env.PORT, (req, res) => {

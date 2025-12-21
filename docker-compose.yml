@@ -6,6 +6,12 @@ services:
       - ./WeatherService/.env
     ports:
       - "8080:8080"
+    healthcheck:
+      test: ["CMD-SHELL", "node -e \"const http=require('http'); http.get('http://localhost:8080/ping', res=>{let b=''; res.on('data',c=>b+=c); res.on('end',()=>{try{const j=JSON.parse(b); process.exit(j.db===true?0:1)}catch(e){process.exit(1)}})}).on('error',()=>process.exit(1))\""]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 5s
 
   roomservice:
     build: ./RoomService
@@ -14,6 +20,12 @@ services:
       - ./RoomService/.env
     ports:
       - "8081:8081"
+    healthcheck:
+      test: ["CMD-SHELL", "node -e \"const http=require('http'); http.get('http://localhost:8081/ping', res=>{let b=''; res.on('data',c=>b+=c); res.on('end',()=>{try{const j=JSON.parse(b); process.exit(j.db===true?0:1)}catch(e){process.exit(1)}})}).on('error',()=>process.exit(1))\""]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 5s
 
   bookingservice:
     build: ./BookingService
@@ -25,6 +37,12 @@ services:
     depends_on:
       - roomservice
       - weatherservice
+    healthcheck:
+      test: ["CMD-SHELL", "node -e \"const http=require('http'); http.get('http://localhost:8082/ping', res=>{let b=''; res.on('data',c=>b+=c); res.on('end',()=>{try{const j=JSON.parse(b); process.exit(j.db===true?0:1)}catch(e){process.exit(1)}})}).on('error',()=>process.exit(1))\""]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 5s
 
   apigateway:
     build: ./API-Gateway
