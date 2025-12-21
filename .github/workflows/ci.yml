@@ -171,8 +171,6 @@ jobs:
               git clone https://github.com/${{ github.repository }} .
               git checkout -f ${{ github.ref_name }} || true
             fi
-
-            # --- Create API Gateway .env ---
             cat > API-Gateway/.env <<'EOF'
             PORT=${{ secrets.API_GATEWAY_PORT }}
             AWS_REGION=${{ secrets.API_GATEWAY_AWS_REGION }}
@@ -180,20 +178,14 @@ jobs:
             COGNITO_USER_POOL_ID=${{ secrets.API_GATEWAY_COGNITO_USER_POOL_ID }}
             DEV_AUTH_BYPASS=${{ secrets.API_GATEWAY_DEV_AUTH_BYPASS }}
             EOF
-
-            # --- Create RoomService .env ---
             cat > RoomService/.env <<'EOF'
             PORT=${{ secrets.ROOM_SERVICE_PORT }}
             MONGODB_URI=${{ secrets.ROOM_SERVICE_MONGODB_URI }}
             EOF
-
-            # --- Create WeatherService .env ---
             cat > WeatherService/.env <<'EOF'
             PORT=${{ secrets.WEATHER_SERVICE_PORT }}
             MONGODB_URI=${{ secrets.WEATHER_SERVICE_MONGODB_URI }}
             EOF
-
-            # --- Create BookingService .env ---
             cat > BookingService/.env <<'EOF'
             PORT=${{ secrets.BOOKING_SERVICE_PORT }}
             MONGODB_URI=${{ secrets.BOOKING_SERVICE_MONGODB_URI }}
@@ -203,31 +195,25 @@ jobs:
             if [ ! -f "$CERT_DIR/fullchain.pem" ] || [ ! -f "$CERT_DIR/privkey.pem" ]; then
               mkdir -p "$CERT_DIR"
               IP_ADDR="${{ secrets.EC2_HOST }}"
-              # Generate self-signed cert with IP SAN
               openssl req -x509 -nodes -newkey rsa:2048 -days 365 \
                 -keyout "$CERT_DIR/privkey.pem" -out "$CERT_DIR/fullchain.pem" \
                 -subj "/CN=$IP_ADDR" -addext "subjectAltName=IP:$IP_ADDR"
               chmod 644 "$CERT_DIR/fullchain.pem" "$CERT_DIR/privkey.pem" || true
             fi
 
-            # Login to Docker Hub (so docker-compose can pull private images)
             echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
 
-            # Pull images (ensure images are present so compose won't build)
             docker pull ${{ secrets.DOCKER_USERNAME }}/room-service:latest || true
-            docker pull ${{ secrets.DOCKER_USERNAME }}/weather-service:latest || true
-            docker pull ${{ secrets.DOCKER_USERNAME }}/booking-service:latest || true
-            docker pull ${{ secrets.DOCKER_USERNAME }}/api-gateway:latest || true
-            docker pull ${{ secrets.DOCKER_USERNAME }}/frontend:latest || true
-
-            # Tag pulled images to compose-local names (project dir 'server' => server-<service>)
             docker tag ${{ secrets.DOCKER_USERNAME }}/room-service:latest server-roomservice:latest || true
+            docker pull ${{ secrets.DOCKER_USERNAME }}/weather-service:latest || true
             docker tag ${{ secrets.DOCKER_USERNAME }}/weather-service:latest server-weatherservice:latest || true
+            docker pull ${{ secrets.DOCKER_USERNAME }}/booking-service:latest || true
             docker tag ${{ secrets.DOCKER_USERNAME }}/booking-service:latest server-bookingservice:latest || true
+            docker pull ${{ secrets.DOCKER_USERNAME }}/api-gateway:latest || true
             docker tag ${{ secrets.DOCKER_USERNAME }}/api-gateway:latest server-apigateway:latest || true
+            docker pull ${{ secrets.DOCKER_USERNAME }}/frontend:latest || true
             docker tag ${{ secrets.DOCKER_USERNAME }}/frontend:latest server-frontend:latest || true
-
-            # Restart services without building images
+            
             cd "$DEPLOY_DIR"
             docker-compose up -d --no-build --remove-orphans
 
